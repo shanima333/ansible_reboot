@@ -1,0 +1,25 @@
+---
+  - name: "Install apache & reboot the server"
+    hosts: all
+    become: true
+    tasks:
+    
+      - name: "Install apache service"
+        yum:
+          name: httpd
+          state: present
+
+      - name: "Restart and enable the service"
+        service:
+          name: httpd
+          state: restarted
+          enabled: true
+      - name: "Copy files to document root"
+        copy: 
+          content: "<h1>Sample website</h1>"
+          dest: /var/www/html/index.html
+
+      - name: "Reboot the server"
+        reboot:
+          msg: "Reboot initiated by Ansible"
+
